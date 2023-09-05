@@ -1,1 +1,2 @@
-release/*
+release/x86_64/linux/ktoy
+release/x86_64/linux/logs/*

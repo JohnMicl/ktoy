@@ -1,26 +1,33 @@
 package main
 
 import (
-	"os"
+	"flag"
+	"ktoy/config"
+	"ktoy/datasource"
+	"ktoy/logger"
+	"ktoy/utils"
 
 	log "github.com/sirupsen/logrus"
 )
 
-func init() {
-	// Log as JSON instead of the default ASCII formatter.
-	log.SetFormatter(&log.JSONFormatter{})
-
-	// Output to stdout instead of the default stderr
-	// Can be any io.Writer, see below for File example
-	log.SetOutput(os.Stdout)
-
-	// Only log the warning severity or above.
-	log.SetLevel(log.InfoLevel)
-
-	// Set reporter
-	log.SetReportCaller(true)
-}
+var confYaml = flag.String("c", "conf.yaml", "config file name")
 
 func main() {
+	logger.Loginit()
 	log.Info("welcome to ktoy :)")
+
+	// 读取配置文件
+	flag.Parse()
+	utils.ParseYamlFile(*confYaml, &config.Config)
+	log.WithFields(log.Fields{
+		"config": config.Config,
+	}).Info("ktoy get config file")
+
+	// 连接ktoy数据库
+	err := datasource.Init()
+	if err != nil {
+		log.Panic(err)
+	}
+
+	log.Info("ktoy go :)")
 }

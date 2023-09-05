@@ -1,0 +1,8 @@
+#数据库配置
+dbInfo:
+  ip: "10.11.17.202"
+  port: 3306
+  dbName: "ktoy"
+  dbUserName: "root"
+  dbPassword: "zh08311534"
+  expiredTime: 30
